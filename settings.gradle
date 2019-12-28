@@ -1,0 +1,2 @@
+include ':app', ':serialization_saving_object_of_file_lib'
+rootProject.name='Serialization File Java Practice'

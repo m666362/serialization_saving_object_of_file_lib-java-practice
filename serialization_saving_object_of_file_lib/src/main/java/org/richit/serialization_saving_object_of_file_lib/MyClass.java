@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class MyClass {
     static String dot = "----------------";
@@ -24,8 +25,47 @@ public class MyClass {
         fileInputStream();
         arrayWriteObject();
         arrayReadObject();
+        newMethodArrayObjectWrite();
+        newMethodArrayObjectRead();
 
         headingProgram("End Programme");
+    }
+
+    private static void newMethodArrayObjectRead() {
+        headingProgram( "newMethodArrayObjectRead" );
+        try (FileInputStream fileInputStream = new FileInputStream( "Array.txt" )){
+            ObjectInputStream objectInputStream = new ObjectInputStream( fileInputStream );
+            ArrayList<Person> peoples = (ArrayList<Person>) objectInputStream.readObject();
+            for (Person man:peoples){
+                System.out.println(man);
+            }
+            objectInputStream.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.toString());
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    private static void newMethodArrayObjectWrite() {
+        headingProgram( "newMethodArrayObjectWrite" );
+        try (FileOutputStream fileOutputStream = new FileOutputStream( "Array.txt" )){
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream( fileOutputStream );
+            ArrayList<Person> richs = new ArrayList<>(  );
+            richs.add( new Person( "jack", 2 ) );
+            richs.add( new Person( "jhon", 3 ) );
+            richs.add( new Person( "tesla", 4 ) );
+            richs.add( new Person( "alpha", 5 ) );
+            objectOutputStream.writeObject( richs);
+            System.out.println("Writing Array Object");
+            objectOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void arrayReadObject() {
@@ -48,6 +88,7 @@ public class MyClass {
         try (FileOutputStream fileOutputStream = new FileOutputStream( "Text.txt" )){
             ObjectOutputStream objectOutputStream = new ObjectOutputStream( fileOutputStream );
             objectOutputStream.writeObject( peoples );
+            System.out.println("Writing Object");
             objectOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,6 +129,7 @@ public class MyClass {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream( fileOutputStream );
             objectOutputStream.writeObject(mike);
             objectOutputStream.writeObject( jhon );
+            System.out.println("Writing Object");
             objectOutputStream.close();
 
         } catch (IOException e) {

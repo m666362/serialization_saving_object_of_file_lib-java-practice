@@ -22,8 +22,36 @@ public class MyClass {
         writeObject();
         fileOutputStream();
         fileInputStream();
+        arrayWriteObject();
+        arrayReadObject();
 
         headingProgram("End Programme");
+    }
+
+    private static void arrayReadObject() {
+        headingProgram( "arrayReadObject" );
+        try (FileInputStream fileInputStream = new FileInputStream( "Text.txt" )){
+            ObjectInputStream objectInputStream = new ObjectInputStream( fileInputStream );
+            Person[] peoples = (Person[]) objectInputStream.readObject();
+            for (Person man:peoples){
+                System.out.println(man);
+            }
+            objectInputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void arrayWriteObject() {
+        headingProgram( "arrayWriteObject" );
+        Person[] peoples = {new Person( "Jack", 1 ), new Person( "Jhon", 5 ), new Person( "Simens", 3 )};
+        try (FileOutputStream fileOutputStream = new FileOutputStream( "Text.txt" )){
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream( fileOutputStream );
+            objectOutputStream.writeObject( peoples );
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void fileInputStream() {
